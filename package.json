@@ -1,0 +1,14 @@
+{
+  "name": "recluster-cli",
+  "version": "1.0.0",
+  "description": "cli for launching apps with recluster",
+  "engines": {
+    "node": ">=4.4.3"
+  },
+  "bin": {
+    "recluster-cli": "recluster-cli"
+  },
+  "dependencies": {
+    "recluster": "0.4.5"
+  }
+}

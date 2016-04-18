@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+'use strict';
+
+var recluster = require('recluster');
+var path = require('path');
+var os = require('os');
+
+var args = process.argv.slice(2);
+if (args.length == 0) {
+  console.error('\x1B[31mUsage:\x1B[39m recluster-cli PATH [WORKER_COUNT]\n');
+  process.exit(-1);
+}
+
+var index = path.resolve(args[0]);
+var cluster = recluster(index, {
+  'workers': parseInt(args[1], 10) || os.cpus().length * 4
+});
+
+cluster.run();
+
+process.on('SIGUSR2', function() {
+  console.info('Got SIGUSR2, reloading cluster...');
+  cluster.reload();
+});
+
+console.info("spawned cluster, kill -s SIGUSR2", process.pid, "to reload");
+
